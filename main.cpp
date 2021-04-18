@@ -54,16 +54,43 @@ int main() {
 	}
 
 	map<int, set<int>> productsWithSums;
-	for (int i = 1; i <= 2352; ++i) {
+	for (int i = 6; i <= 2352; ++i) {
 		productsWithSums[i];
 	}
 
 	for (set<int>::iterator i = primes.begin(); i != primes.end(); ++i) {
+		//Remove all primes
 		productsWithSums.erase(*i);
-		productsWithSums.erase((*i)^2);
-		
-		set<int>::iterator j = i;
-		j++;
+
+		//Remove all products of 2 primes, including primes squared
+		for (set<int>::iterator j = i; j != primes.end(); j++) {
+			productsWithSums.erase(*i * *j);
+		}
+	}
+
+	//Remove powers of 2
+	for (int i = 1; i <= 14; ++i) {
+		productsWithSums.erase(pow(2,i));
+	}
+
+	//Remove odd numbers
+	vector<int> removeThese;
+	for (map<int, set<int>>::iterator i = productsWithSums.begin(); i != productsWithSums.end(); ++i) {
+		if (i->first % 2 == 1) {
+			removeThese.push_back(i->first);
+		}
+	}
+	for (int i = 0; i < removeThese.size(); ++i) {
+		productsWithSums.erase(removeThese[i]);
+	}
+
+	/*for (map<int, set<int>>::iterator i = productsWithSums.begin(); i != productsWithSums.end(); ++i) {
+		cout << i->first << " ";
+	}*/
+
+	removeThese.clear();
+	for (map<int, set<int>>::iterator i = productsWithSums.begin(); i != productsWithSums.end(); ++i) {
+		//If product doesn't have factors that sum to a sum in sums, remove
 	}
 }
 
